@@ -23,7 +23,10 @@ def add_user(request):
             wishes=data.get("wishes"),
             room=data.get("room", None),
             year=data.get("year", None),
-            name=data.get("name")
+            name=data.get("name"),
+            has_giver=False,
+            surname='',
+            current_priority=0
             )
     return HttpResponse(200)
 
