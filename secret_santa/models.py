@@ -15,5 +15,5 @@ class User(models.Model):
     current_priority = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.name} {self.surname}"
+        return f"{self.name} {self.surname}, id {self.id} дарит {self.gifts_to}"
 # Create your models here.

@@ -1,5 +1,6 @@
 from random import randint, shuffle
 
+import pdb
 from django.db.models import (Case, ExpressionWrapper, F, IntegerField, Sum,
                               Value, When)
 from django.db.models.functions import Abs
@@ -33,6 +34,9 @@ def assign_givers(request):
                 ),
                 output_field=IntegerField(),
             )).order_by("-priority")
+        if not free_users:
+            fix_last_one()
+            break
         selected_user = free_users.first()
 
         print(user, " ", user.room, " ", user.year)
@@ -47,11 +51,28 @@ def assign_givers(request):
 
     return HttpResponse()
 
+def fix_last_one():
+    loner = User.objects.get(gifts_to=None, has_giver=False)
+    other = User.objects.exclude(id=loner.id).order_by("current_priority").first()
+    if other:
+        loner.gifts_to = other.gifts_to
+        other.gifts_to = loner.id
+        loner.has_giver = True
+        other.save()
+        loner.save()
+
+
+
 def delete_user(request, id):
     user = User.objects.get(id=id)
     giver = User.objects.get(gifts_to=id)
     receiver = User.objects.get(id=user.gifts_to)
-    
+    print(giver, receiver)
+    User.objects.filter(id=receiver.id).update(has_giver=False)
+    User.objects.filter(id=giver.id).update(gifts_to=None)
+    user.delete()
+    assign_givers(request)
+
 
 
 
