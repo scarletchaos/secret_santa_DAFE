@@ -6,13 +6,13 @@ from django.db.models import (Case, ExpressionWrapper, F, IntegerField, Sum,
 from django.db.models.functions import Abs
 from django.db.models.functions.comparison import Coalesce
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from secret_santa.models import User
 
 def reset_givers(request):
     User.object.all().update(has_giver=False, gifts_to=None)
-    return HttpResponse(200)
+    return redirect('admin:index')
 
 def assign_givers(request):
     users = User.objects.filter(gifts_to=None)
