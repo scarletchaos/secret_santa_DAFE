@@ -16,10 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from secret_santa.views import assign_givers, reset_givers
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("reset/", reset_givers, name="reset"),
-    re_path(".*", assign_givers),
+    re_path(".*", admin.site.urls),
 ]
