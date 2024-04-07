@@ -16,8 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
+from secret_santa.views import add_user, delete_user
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("add_user/", add_user),
+    path("delete_user/", delete_user),
     re_path(".*", admin.site.urls),
 ]
