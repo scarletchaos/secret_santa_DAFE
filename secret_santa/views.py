@@ -5,7 +5,7 @@ import json
 
 def delete_user(request):
     id = request.POST["id"]
-    user = User.objects.get(id=id)
+    user = User.objects.get(telegram_id=id)
     giver = User.objects.get(gifts_to=id)
     receiver = User.objects.get(id=user.gifts_to)
     print(giver, receiver)
